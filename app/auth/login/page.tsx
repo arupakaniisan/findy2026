@@ -105,6 +105,11 @@ export default function LoginPage() {
               <Link href="/auth/sign-up" style={{ color: "var(--amber-warm)", textDecoration: "none", fontWeight: "500" }}>
                 新規登録
               </Link>
+              <p style={{ color: "var(--text-muted)", fontSize: "14px", marginTop: "8px" }}>
+  <Link href="/auth/forgot-password" style={{ color: "var(--amber-warm)", textDecoration: "none", fontWeight: "500" }}>
+    パスワードをお忘れの方
+  </Link>
+</p>
             </p>
           </div>
         </div>
