@@ -34,7 +34,7 @@ function JoinEventContent() {
     const { data: event, error: findError } = await supabase
       .from("events")
       .select("*")
-      .eq("invite_code", code.trim().toUpperCase())
+      .eq("invite_code", code.trim())
       .single();
 
     if (findError || !event) {
@@ -120,7 +120,7 @@ function JoinEventContent() {
                     className="input"
                     placeholder="例: AB3X9KPQ2R"
                     value={code}
-                    onChange={(e) => setCode(e.target.value.toUpperCase())}
+                    onChange={(e) => setCode(e.target.value)}
                     maxLength={10}
                     style={{ letterSpacing: "0.15em", fontSize: "20px", textAlign: "center", fontWeight: "600" }}
                     required
