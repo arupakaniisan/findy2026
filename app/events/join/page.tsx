@@ -43,7 +43,13 @@ function JoinEventContent() {
       return;
     }
 
-    // すでに参加済みか確認
+    // 期限チェック
+    if (event.invite_code_expires_at && new Date(event.invite_code_expires_at) < new Date()) {
+      setError("この招待コードは期限切れです。主催者に新しいコードを発行してもらってください。");
+      setLoading(false);
+      return;
+    }
+
     const { data: existing } = await supabase
       .from("event_members")
       .select("id")
@@ -106,21 +112,21 @@ function JoinEventContent() {
                   <label className="label">
                     <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                       <Hash size={13} />
-                      招待コード（6文字）
+                      招待コード（10文字）
                     </span>
                   </label>
                   <input
                     type="text"
                     className="input"
-                    placeholder="例: AB3X9K"
+                    placeholder="例: AB3X9KPQ2R"
                     value={code}
                     onChange={(e) => setCode(e.target.value.toUpperCase())}
-                    maxLength={6}
+                    maxLength={10}
                     style={{ letterSpacing: "0.15em", fontSize: "20px", textAlign: "center", fontWeight: "600" }}
                     required
                   />
                   <p style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "6px" }}>
-                    主催者から受け取った6桁のコードを入力してください
+                    主催者から受け取った10桁のコードを入力してください
                   </p>
                 </div>
 
@@ -131,7 +137,7 @@ function JoinEventContent() {
                   <button
                     type="submit"
                     className="btn-primary"
-                    disabled={loading || code.length < 6}
+                    disabled={loading || code.length < 10}
                     style={{ flex: 2, justifyContent: "center" }}
                   >
                     {loading ? "参加中..." : "参加する"}

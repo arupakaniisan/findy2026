@@ -9,7 +9,7 @@ import { ArrowLeft, CalendarDays, Sparkles } from "lucide-react";
 function generateInviteCode(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let code = "";
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 10; i++) {
     code += chars[Math.floor(Math.random() * chars.length)];
   }
   return code;
@@ -35,14 +35,15 @@ export default function NewEventPage() {
     const inviteCode = generateInviteCode();
 
     const { data: event, error: eventError } = await supabase
-      .from("events")
-      .insert({
-        name,
-        description: description || null,
-        event_date: eventDate || null,
-        invite_code: inviteCode,
-        created_by: user.id,
-      })
+  .from("events")
+  .insert({
+    name,
+    description: description || null,
+    event_date: eventDate || null,
+    invite_code: inviteCode,
+    created_by: user.id,
+    invite_code_expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+  })
       .select()
       .single();
 
